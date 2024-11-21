@@ -68,19 +68,7 @@ function Header2(): JSX.Element {
             </Link>
           </div>
           {/* Conditionally render NAV_LINKS */}
-          {showNavLinks && (
-            <div className="flex flex-row items-center space-x-8">
-              {NAV_LINKS.map((link: INavLinks) => (
-                <Link
-                  href={link.link}
-                  key={link.link + link.name}
-                  className="font-BricolageGrotesqueMedium font-medium text-base text-black hover:text-OWANBE_PRY"
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </div>
-          )}
+          
           
         </nav>
 

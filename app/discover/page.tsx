@@ -39,13 +39,7 @@ function Dashboard(): JSX.Element {
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // const { getDiscoveryEvents } = useGetDiscoveryEvents(1, 10, searchText);
-    // console.log(getDiscoveryEvents?.data);
-
-    // Perform search logic here
-    // For demonstration purposes, let's assume searchResults are updated based on the search
-    // Example: setSearchResults([]) or setSearchResults([{...}])
-
+  
     if (searchResults.length === 0) {
       router.push("/discover/event-not-found");
     } else {

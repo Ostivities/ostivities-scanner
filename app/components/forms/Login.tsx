@@ -118,12 +118,7 @@ function LoginForm(): JSX.Element {
           <Checkbox className="font-BricolageGrotesqueSemiBold font-regular">
             Remember me
           </Checkbox>
-          <Link
-            className="text-OWANBE_PRY underline hover:text-OWANBE_PRY hover:underline font-BricolageGrotesqueSemiBold font-semibold"
-            href="/forgot-password"
-          >
-            Forgot password?
-          </Link>
+         
         </div>
       </Form.Item>
 

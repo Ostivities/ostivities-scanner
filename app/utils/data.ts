@@ -27,7 +27,7 @@ export const NAV_LINKS: INavLinks[] = [
 
 export const EVENT_NAV_LINKS: INavLinks[] = [
   {
-    link: "/discover", name: "Scan Tickets",
+    link: "/discover", name: "Events",
     target: undefined,
     rel: undefined
   },

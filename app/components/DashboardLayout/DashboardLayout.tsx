@@ -55,7 +55,7 @@ const items1: MenuProps["items"] = [
 ];
 
 const items2: MenuProps["items"] = [
-  { icon: CompassOutlined, title: "Scan Tickets", link: "/discover" },
+  { icon: CompassOutlined, title: "Events", link: "/discover" },
  
 ].map((item) => {
   const key = item.link;

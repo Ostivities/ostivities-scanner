@@ -7,17 +7,17 @@ import React from "react";
 function Login() {
   return (
     <AuthLayout>
-      <div className="mt-2"> {/* Add margin-top to create space from AuthLayout */}
+      <div className=""> {/* Add margin-top to create space from AuthLayout */}
       <div className="flex flex-col space-y-16">
         <Small
           content={
             <span className="text-sm font-BricolageGrotesqueRegular">
-              New user?{" "}
+             
               <Link
                 href={"/signup"}
                 className="text-OWANBE_PRY underline hover:text-OWANBE_PRY hover:underline"
               >
-                Sign up
+              
               </Link>
             </span>
           }
