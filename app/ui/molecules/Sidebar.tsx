@@ -14,11 +14,8 @@ import { createElement } from "react";
 import React from "react";
 
 const items2: MenuProps['items'] = [
-  { icon: CompassOutlined, title: 'Discovery', link: '/discover' },
-  { icon: PlusCircleOutlined, title: 'Create Event', link: '/discover/create-events' },
-  { icon: FileSearchOutlined, title: 'Events Created', link: '/discover/events-created' },
-  { icon: SettingOutlined, title: 'Settings', link: '/discover/settings' },
-  // { icon: FieldTimeOutlined, title: 'Coming Soon', link: '/discover/coming-soon' },
+  { icon: CompassOutlined, title: 'Scan Tickets', link: '/discover' },
+  
 ].map((item) => {
   const key = item.link;
 

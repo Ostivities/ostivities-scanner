@@ -77,36 +77,7 @@ function Header(): JSX.Element {
               ))}
             </div>
           )}
-          {/* Conditional Buttons Rendering */}
-          {!pathCheck && (
-            <div className="flex flex-row items-end justify-end space-x-3">
-              {!isLoggedIn ? (
-                isRegistered ? (
-                  // Show only Sign In button if user is registered but not logged in
-                  <Link href="/login" passHref>
-                    <Button variant="outline" label="Sign in"
-                      className="font-BricolageGrotesqueSemiBold continue cursor-pointer font-bold" />
-                  </Link>
-                ) : (
-                  // Show both Sign In and Sign Up buttons if user is not registered
-                  <>
-                    <Link href="/login" passHref>
-                      <Button variant="outline" label="Sign in"
-                        className="font-BricolageGrotesqueSemiBold continue cursor-pointer font-bold" />
-                    </Link>
-                    <Link href="/signup" passHref>
-                      <Button label="Sign Up" />
-                    </Link>
-                  </>
-                )
-              ) : (
-                // Show My Account button if user is logged in
-                <Link href="/discover" passHref>
-                  <Button label="My Account" />
-                </Link>
-              )}
-            </div>
-          )}
+        
         </nav>
 
         {/* SM AND MD SCREENS */}
@@ -172,37 +143,7 @@ function Header(): JSX.Element {
               ))}
             </>
           )}
-          <div className="flex flex-col items-center justify-center space-y-4 mt-7 mx-auto w-3/5 md:w-1/5">
-            {!pathCheck && (
-              <>
-                {!isLoggedIn ? (
-                  isRegistered ? (
-                    // Show only Sign In button if user is registered but not logged in
-                    <Link href="/login" passHref>
-                      <Button variant="outline" label="Sign in"
-                        className="font-BricolageGrotesqueSemiBold continue cursor-pointer font-bold" />
-                    </Link>
-                  ) : (
-                    // Show both Sign In and Sign Up buttons if user is not registered
-                    <>
-                      <Link href="/login" passHref>
-                        <Button variant="outline" label="Sign in"
-                          className="font-BricolageGrotesqueSemiBold continue cursor-pointer font-bold" />
-                      </Link>
-                      <Link href="/signup" passHref>
-                        <Button label="Sign Up" />
-                      </Link>
-                    </>
-                  )
-                ) : (
-                  // Show My Account button if user is logged in
-                  <Link href="/discover" passHref>
-                    <Button label="My Account" />
-                  </Link>
-                )}
-              </>
-            )}
-          </div>
+          
         </Drawer>
       </header>
     </ConfigProvider>

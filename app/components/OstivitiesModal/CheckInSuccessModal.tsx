@@ -5,17 +5,18 @@ import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
 import { useCookies } from "react-cookie";
 
-const PublishSuccessModal = ({
+const CheckInSuccessModal = ({
   open,
   onCancel,
   onClose,
-  onOk,
+  onOk = () => {},  // Provide a fallback empty function for `onOk`
 }: IModal): JSX.Element => {
   const router = useRouter();
-  const params = useParams<{ id: string }>();
+  const params = useParams<{ id: string, event: string }>();
   const [cookies, setCookie, removeCookie] = useCookies(["event_id"]);
 
   return (
+    
     <div className="fixed inset-0 bg-black/20 grid place-items-center"
       onClick={(e) => e.stopPropagation()} // prevent clicks outside the modal from closing it
     >
@@ -34,24 +35,18 @@ const PublishSuccessModal = ({
           </div>
         </div>
         <div className="mt-8 text-center">
-          <h2 className="font-bricolage-grotesque font-bold text-xl">
-            Event published successfully!
-          </h2>
-          <p className="font-bricolage-grotesque font-regular text-OWAMBE_FADE_TEXT max-w-md mx-auto mt-5">
-            You can view more details about your event by clicking the button
-            below.
-          </p>
+        <h2 style={{ fontFamily: 'Bricolage Grotesque', fontWeight: 'normal', fontSize: '1rem' }}>
+  Guest checked in successfully!!
+</h2>
           <div className="flex justify-center">
             <button
               onClick={() => {
                 onOk();
-                router.push(
-                  `/discover/events-created/${params?.id}/about`
-                )
+                router.push(`/discover/${params?.event}/scanner`)
               }}
               className="block primary-btn font-normal text-base mt-10 px-32"
             >
-              Manage Event
+              Continue
             </button>
           </div>
         </div>
@@ -60,4 +55,4 @@ const PublishSuccessModal = ({
   );
 };
 
-export default PublishSuccessModal;
+export default CheckInSuccessModal;

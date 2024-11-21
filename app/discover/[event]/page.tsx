@@ -35,7 +35,6 @@ import end from "@/public/Endsin.svg";
 import placeholder from "@/public/placeholder.svg";
 import Head from "next/head";
 import { Tooltip } from "antd";
-import Dpmodal from "@/app/components/OstivitiesModal/CreateDp";
 import { Heading3 } from "@/app/components/typography/Heading3";
 import { ACCOUNT_TYPE } from "@/app/utils/enums";
 
@@ -533,7 +532,7 @@ const EventDetail = () => {
                           pathname.includes("register") ? "primary" : "text"
                         }
                         onClick={() =>
-                          router.push(`/discover/${params?.event}/scan`)
+                          router.push(`/discover/${params?.event}/scanner`)
                         }
                         className="primary-btn w-full"
                         style={{
@@ -735,7 +734,7 @@ const EventDetail = () => {
                   <Button
                     type={pathname.includes("register") ? "primary" : "text"}
                     onClick={() =>
-                      router.push(`/discover/${params?.event}/tickets`)
+                      router.push(`/discover/${params?.event}/scanner`)
                     }
                     className="primary-btn w-full"
                     style={{

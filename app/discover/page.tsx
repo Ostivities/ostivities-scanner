@@ -56,7 +56,7 @@ function Dashboard(): JSX.Element {
 
   const header = (
     <div className="flex-center justify-between w-full">
-      <h1 style={{ fontSize: "24px" }}>Discovery</h1>
+      <h1 style={{ fontSize: "24px" }}>Events</h1>
 
       
     </div>

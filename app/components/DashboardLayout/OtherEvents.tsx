@@ -59,11 +59,7 @@ const DiscoverEvents = () => {
                 key={event?.id}
                 title={event?.eventName}
                 about={event?.eventType}
-                status={
-                  event?.enable_registration === false
-                    ? "Reg Closed"
-                    : "Get Tickets"
-                }
+              
                 image={event?.eventImage ? event.eventImage : placeholder}
                 url={`/discover/${event?.unique_key}`}
                 titleClass="font-bricolage-grotesque font-medium"
@@ -77,11 +73,6 @@ const DiscoverEvents = () => {
                 about={event?.eventType}
                 startDate={event?.startDate}
                 endDate={event?.endDate}
-                status={
-                  event?.enable_registration === false
-                    ? "Reg Closed"
-                    : "Get Tickets"
-                }
                 image={event?.eventImage ? event.eventImage : placeholder}
                 url={`/discover/${event?.unique_key}`}
                 titleClass="font-bricolage-grotesque font-medium"

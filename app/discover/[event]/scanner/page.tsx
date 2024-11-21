@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, usePathname, useParams } from "next/navigation";
 import Image from "next/image";
 import DashboardLayout from "@/app/components/DashboardLayout/DashboardLayout";
 import { useGetUserEventByUniqueKey } from "@/app/hooks/event/event.hook";
-import QrScanner from "qr-scanner";  // Import the qr-scanner library
+import QrScanner from "react-qr-scanner";  // Import the QR Scanner
 import "@/app/globals.css";
 
 const Scanner = () => {
@@ -19,29 +19,20 @@ const Scanner = () => {
   const eventDetails = getUserEventByUniqueKey?.data?.data?.data;
 
   const [scannedData, setScannedData] = useState<string | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  useEffect(() => {
-    if (!eventDetails) return; // Run only when eventDetails are available
+  // Handle scanning result
+  const handleScan = (data: any) => {
+    if (data) {
+      setScannedData(data);
+      console.log("Scanned QR Code:", data);
+      router.push(`/discover/${params?.event}/scanresults`)
+    }
+  };
 
-    // Initialize QR scanner
-    const qrScanner = new QrScanner(videoRef.current!, (result) => {
-      if (result) {
-        setScannedData(result);
-        console.log("Scanned QR Code:", result);
-        router.push(`/details/${result}`);
-      }
-    });
-
-    // Start the scanner
-    qrScanner.start();
-
-    // Cleanup the scanner when the component is unmounted or eventDetails change
-    return () => {
-      qrScanner.stop();
-    };
-  }, [eventDetails, router]);
+  // Handle errors during scan
+  const handleError = (err: any) => {
+    console.error("Scan Error:", err);
+  };
 
   const title = (
     <div className="flex-center gap-2">
@@ -64,9 +55,14 @@ const Scanner = () => {
           <div>Loading...</div>
         ) : eventDetails ? (
           <div>
-            {/* QR scanner view */}
-            <video ref={videoRef} width="100%" height="auto" />
-            <canvas ref={canvasRef} style={{ display: "none" }} />
+            {/* QR scanner component */}
+            <QrScanner
+              delay={300} // Time between frames for scanning
+              facingMode="environment" // Use back camera
+              onError={handleError}
+              onScan={handleScan}
+              style={{ width: "100%" }} // Full width for scanner view
+            />
           </div>
         ) : (
           <div>No event details found.</div>
