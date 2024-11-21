@@ -17,7 +17,9 @@ const Scanner = () => {
 
   const [scannedData, setScannedData] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [deviceId, setDeviceId] = useState<string | null>(null);
 
+  // Function to capture a frame and decode the QR code
   const captureFrame = useCallback(() => {
     if (
       webcamRef.current &&
@@ -46,6 +48,29 @@ const Scanner = () => {
     }
   }, [router, params]);
 
+  // Fetch available video devices and set the back camera
+  useEffect(() => {
+    const getVideoDevices = async () => {
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const videoDevices = devices.filter((device) => device.kind === "videoinput");
+
+        // Look for a device with "back" or "rear" in the label
+        const backCamera = videoDevices.find((device) =>
+          device.label.toLowerCase().includes("back")
+        );
+
+        // Use the first available camera as a fallback
+        setDeviceId(backCamera?.deviceId || videoDevices[0]?.deviceId || null);
+      } catch (err) {
+        console.error("Error accessing video devices:", err);
+        setError("Failed to access the camera. Please check your device permissions.");
+      }
+    };
+
+    getVideoDevices();
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(captureFrame, 300); // Scan every 300ms
     return () => clearInterval(interval); // Clear interval on unmount
@@ -70,25 +95,31 @@ const Scanner = () => {
       <div className="scanner-container">
         {error && <p className="error-message">{error}</p>}
         <div className="webcam-container" style={{ position: "relative" }}>
-          {/* Webcam Feed */}
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/png"
-            videoConstraints={{
-              facingMode: "environment", // Use the back camera
-            }}
-            style={{
-              width: "100%",
-              height: "auto",
-            }}
-          />
+          {deviceId ? (
+            <>
+              {/* Webcam Feed */}
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/png"
+                videoConstraints={{
+                  deviceId: deviceId, // Use the selected device ID
+                }}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                }}
+              />
 
-          {/* Canvas for QR Code Decoding */}
-          <canvas
-            ref={canvasRef}
-            style={{ display: "none" }} // Canvas is hidden
-          />
+              {/* Canvas for QR Code Decoding */}
+              <canvas
+                ref={canvasRef}
+                style={{ display: "none" }} // Canvas is hidden
+              />
+            </>
+          ) : (
+            <p>Loading camera...</p>
+          )}
         </div>
         {scannedData && (
           <div className="scanned-data">
