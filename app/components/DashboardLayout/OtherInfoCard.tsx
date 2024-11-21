@@ -38,7 +38,7 @@ const InfoCard: React.FC<PropsI> = ({
       <Image src={image} alt="" fill className="object-cover" />
       <div className="absolute inset-0 bg-image-card text-white">
         <div
-          className={`absolute top-0 right-0 py-2 px-3 bg-OWANBE_PRY rounded-bl-[1.25rem] ${statusClass}`}
+          
         >
           <span style={{ fontFamily: "Bricolage Grotesque, sans-serif" }}>
             {status}
