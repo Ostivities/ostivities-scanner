@@ -110,7 +110,7 @@ function Hero(): JSX.Element {
             </p>
           </motion.div>
           <Link
-            href="/discover"
+            href="/events"
             className="bg-OWANBE_SECONDARY hover:!bg-OWANBE_PRY transition-all duration-300 rounded-full hover:!text-white text-white px-8 py-3"
           >
             <span className="pr-1">Explore Events</span>

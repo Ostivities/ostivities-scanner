@@ -24,7 +24,7 @@ const AllEvents = () => {
         fontSize: "20px",
         fontFamily: "Bricolage Grotesque, font-semibold",
       }} // Inline style
-      uri="/discover/allevents"
+      uri="/events/allevents"
     >
       {isPending ? (
         <>
@@ -57,7 +57,7 @@ const AllEvents = () => {
               endDate={event?.endDate}
            
               image={event?.eventImage ? event.eventImage : placeholder}
-              url={`/discover/${event?.unique_key}`}
+              url={`/events/${event?.unique_key}`}
               titleClass="font-bricolage-grotesque font-medium"
               aboutClass="font-bricolage-grotesque"
               statusClass="font-bricolage-grotesque font-medium"
@@ -71,7 +71,7 @@ const AllEvents = () => {
               endDate={event?.endDate}
            
               image={event?.eventImage ? event.eventImage : placeholder}
-              url={`/discover/${event?.unique_key}`}
+              url={`/events/${event?.unique_key}`}
               titleClass="font-bricolage-grotesque font-medium"
               aboutClass="font-bricolage-grotesque"
               statusClass="font-bricolage-grotesque font-medium"

@@ -16,13 +16,13 @@ const useFetch = () => {
 
   // Private paths for authentication
   const privatePaths = [
-    "/discover/create-events",
-    "/discover/settings",
-    "/discover/events-created"
+    "/events/create-events",
+    "/events/settings",
+    "/events/events-created"
   ];
 
   const dynamicPrivatePaths = [
-    /^\/discover\/create-events\/[a-zA-Z0-9-_]+(\/(manage|edit|delete))?$/
+    /^\/events\/create-events\/[a-zA-Z0-9-_]+(\/(manage|edit|delete))?$/
   ];
 
   const isPrivatePath = (path: string) => {

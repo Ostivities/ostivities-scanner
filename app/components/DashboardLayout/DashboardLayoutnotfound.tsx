@@ -126,7 +126,7 @@ function DashboardLayout({
 
   const path = confirmIndex ? `/${index}` : "";
 
-  const [currentPah, setCurrentPah] = useState(`/discover${path}`);
+  const [currentPah, setCurrentPah] = useState(`/events${path}`);
 
   const onClick: MenuProps["onClick"] = (e: any) => {
     setCurrentPah(e?.key);

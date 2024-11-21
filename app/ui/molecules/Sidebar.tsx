@@ -14,7 +14,7 @@ import { createElement } from "react";
 import React from "react";
 
 const items2: MenuProps['items'] = [
-  { icon: CompassOutlined, title: 'Events', link: '/discover' },
+  { icon: CompassOutlined, title: 'Events', link: '/events' },
   
 ].map((item) => {
   const key = item.link;

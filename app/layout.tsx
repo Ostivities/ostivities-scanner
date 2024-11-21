@@ -12,8 +12,8 @@ const inter = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: "Ostivities",
-  description: "Revolutionizing Event Management",
+  title: "Ostivities Ticket Scanner",
+  description: "Ticket Scanning Made Easy",
 };
 
 export default function RootLayout({

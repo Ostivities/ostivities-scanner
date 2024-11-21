@@ -9,7 +9,7 @@ function EventNotFound(): JSX.Element {
   const router = useRouter();
 
   const handleBackToDiscovery = () => {
-    router.push("/discover");
+    router.push("/events");
   };
 
   return (

@@ -168,7 +168,7 @@ function ScanResults(): JSX.Element {
                                 padding: "10px 20px",
                                 fontFamily: "Bricolage Grotesque",
                             }}
-                            onClick={() => router.push(`/discover/${params?.event}/scanner`)}
+                            onClick={() => router.push(`/events/${params?.event}/scanner`)}
                         >
                             Cancel
                         </Button>

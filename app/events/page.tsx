@@ -41,7 +41,7 @@ function Dashboard(): JSX.Element {
     event.preventDefault();
   
     if (searchResults.length === 0) {
-      router.push("/discover/event-not-found");
+      router.push("/events/event-not-found");
     } else {
       // Handle the case where search results are available
       console.log("Search results found:", searchResults);
@@ -69,7 +69,7 @@ function Dashboard(): JSX.Element {
             }`}
             onClick={() => {
               setActiveTab("all");
-              // router.push('/discover/all')
+              // router.push('/events/all')
             }}
           >
             Upcoming Events

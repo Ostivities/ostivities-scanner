@@ -329,7 +329,7 @@ const EventDetail = () => {
     {
       label: (
         <Link
-          href={`/discover/${params?.event}/tickets`}
+          href={`/events/${params?.event}/tickets`}
           className="font-BricolageGrotesqueRegular font-normal text-md text-OWANBE_DARK"
         >
           Register as a guest
@@ -348,7 +348,7 @@ const EventDetail = () => {
         <meta property="og:image" content={eventDetails?.eventImage} />
         <meta
           property="og:url"
-          content={`https://ostivities.com/discover/${params?.event}`}
+          content={`https://ostivities.com/events/${params?.event}`}
         />
         <meta property="og:type" content="website" />
       </Head>
@@ -532,7 +532,7 @@ const EventDetail = () => {
                           pathname.includes("register") ? "primary" : "text"
                         }
                         onClick={() =>
-                          router.push(`/discover/${params?.event}/scanner`)
+                          router.push(`/events/${params?.event}/scanner`)
                         }
                         className="primary-btn w-full"
                         style={{
@@ -734,7 +734,7 @@ const EventDetail = () => {
                   <Button
                     type={pathname.includes("register") ? "primary" : "text"}
                     onClick={() =>
-                      router.push(`/discover/${params?.event}/scanner`)
+                      router.push(`/events/${params?.event}/scanner`)
                     }
                     className="primary-btn w-full"
                     style={{

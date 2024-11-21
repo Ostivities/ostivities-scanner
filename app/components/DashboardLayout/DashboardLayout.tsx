@@ -55,7 +55,7 @@ const items1: MenuProps["items"] = [
 ];
 
 const items2: MenuProps["items"] = [
-  { icon: CompassOutlined, title: "Events", link: "/discover" },
+  { icon: CompassOutlined, title: "Events", link: "/events" },
  
 ].map((item) => {
   const key = item.link;
@@ -71,7 +71,7 @@ const items2: MenuProps["items"] = [
 });
 
 const items3: MenuProps["items"] = [
-  { icon: CompassOutlined, title: "Discovery", link: "/discover" },
+  { icon: CompassOutlined, title: "Discovery", link: "/events" },
 ].map((item) => {
   const key = item.link;
 
@@ -274,7 +274,7 @@ function DashboardLayout({
 
   const path = confirmIndex ? `/${index}` : "";
 
-  const [currentPah, setCurrentPah] = useState(`/discover${path}`);
+  const [currentPah, setCurrentPah] = useState(`/events${path}`);
 
   // const onClick: MenuProps["onClick"] = (e: any) => {
   //   setCurrentPah(e?.key);
@@ -291,7 +291,7 @@ function DashboardLayout({
     pathname.split("/").includes("coming-soon") ||
     pathname.split("/").includes("create-events");
 
-  const showNavLinks = !pathCheck && pathname !== "/discover";
+  const showNavLinks = !pathCheck && pathname !== "/events";
 
   const toggleSidebar = () => {
     console.log(collapsed);

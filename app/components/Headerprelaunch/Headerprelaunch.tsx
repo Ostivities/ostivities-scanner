@@ -34,7 +34,7 @@ function Header(): JSX.Element {
     pathname === "/signup";
 
   // Check if NAV_LINKS should be displayed
-  const showNavLinks = !pathCheck && pathname !== "/discover"; // Add other pages as needed
+  const showNavLinks = !pathCheck && pathname !== "/events"; // Add other pages as needed
 
 
   const showDrawer = () => {

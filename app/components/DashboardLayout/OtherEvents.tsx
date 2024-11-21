@@ -61,7 +61,7 @@ const DiscoverEvents = () => {
                 about={event?.eventType}
               
                 image={event?.eventImage ? event.eventImage : placeholder}
-                url={`/discover/${event?.unique_key}`}
+                url={`/events/${event?.unique_key}`}
                 titleClass="font-bricolage-grotesque font-medium"
                 aboutClass="font-bricolage-grotesque"
                 statusClass="font-bricolage-grotesque font-medium"
@@ -74,7 +74,7 @@ const DiscoverEvents = () => {
                 startDate={event?.startDate}
                 endDate={event?.endDate}
                 image={event?.eventImage ? event.eventImage : placeholder}
-                url={`/discover/${event?.unique_key}`}
+                url={`/events/${event?.unique_key}`}
                 titleClass="font-bricolage-grotesque font-medium"
                 aboutClass="font-bricolage-grotesque"
                 statusClass="font-bricolage-grotesque font-medium"
@@ -90,7 +90,7 @@ const DiscoverEvents = () => {
           about={event?.eventType}
           status={event?.enable_registration === false ? "Reg Closed" : "Get Tickets"}
           image={event?.eventImage ? event.eventImage : placeholder}
-          url={`/discover/${event?.unique_key}`}
+          url={`/events/${event?.unique_key}`}
           titleClass="font-bricolage-grotesque font-medium"
           aboutClass="font-bricolage-grotesque"
           statusClass="font-bricolage-grotesque font-medium"

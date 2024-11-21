@@ -40,7 +40,7 @@ const Scanner = () => {
         if (qrCode && qrCode.data) {
           setScannedData(qrCode.data);
           console.log("Scanned QR Code:", qrCode.data);
-          router.push(`/discover/${params?.event}/scanresults`);
+          router.push(`/events/${params?.event}/scanresults`);
         }
       }
     }
