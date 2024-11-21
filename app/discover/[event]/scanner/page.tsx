@@ -1,35 +1,65 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useRouter, usePathname, useParams } from "next/navigation";
+
+import { useEffect, useState, useRef } from "react";
+import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import DashboardLayout from "@/app/components/DashboardLayout/DashboardLayout";
-import { useGetUserEventByUniqueKey } from "@/app/hooks/event/event.hook";
-import QrScanner from "react-qr-scanner";  // Import the QR Scanner
+import QrScanner from "react-qr-scanner";
 import "@/app/globals.css";
 
 const Scanner = () => {
   const router = useRouter();
-  const pathname = usePathname();
   const params = useParams<{ event: string }>();
-
-  // Destructure the hook
-  const { getUserEventByUniqueKey } = useGetUserEventByUniqueKey(params?.event);
-
-  // Access event details
-  const eventDetails = getUserEventByUniqueKey?.data?.data?.data;
-
   const [scannedData, setScannedData] = useState<string | null>(null);
+  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  // Handle scanning result
+  useEffect(() => {
+    // Get available cameras and select the back camera
+    navigator.mediaDevices
+      .enumerateDevices()
+      .then((devices) => {
+        const videoDevices = devices.filter((device) => device.kind === "videoinput");
+        const backCamera = videoDevices.find((device) =>
+          device.label.toLowerCase().includes("back")
+        );
+
+        if (backCamera) {
+          navigator.mediaDevices
+            .getUserMedia({
+              video: { deviceId: backCamera.deviceId },
+            })
+            .then((stream) => {
+              setCameraStream(stream);
+
+              if (videoRef.current) {
+                videoRef.current.srcObject = stream; // Attach stream to video element
+                videoRef.current.play();
+              }
+            })
+            .catch((err) => console.error("Camera access error:", err));
+        } else {
+          console.error("No back camera found");
+        }
+      })
+      .catch((err) => console.error("Error enumerating devices:", err));
+
+    // Cleanup camera stream on unmount
+    return () => {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach((track) => track.stop());
+      }
+    };
+  }, []);
+
   const handleScan = (data: any) => {
     if (data) {
       setScannedData(data);
       console.log("Scanned QR Code:", data);
-      router.push(`/discover/${params?.event}/scanresults`)
+      router.push(`/discover/${params?.event}/scanresults`);
     }
   };
 
-  // Handle errors during scan
   const handleError = (err: any) => {
     console.error("Scan Error:", err);
   };
@@ -51,22 +81,22 @@ const Scanner = () => {
   return (
     <DashboardLayout title={title} isLoggedIn>
       <div className="scanner-container">
-        {getUserEventByUniqueKey?.isFetching ? (
-          <div>Loading...</div>
-        ) : eventDetails ? (
-          <div>
-            {/* QR scanner component */}
+        <div>
+          {cameraStream ? (
             <QrScanner
-              delay={300} // Time between frames for scanning
-              facingMode="environment" // Use back camera
+              delay={300}
               onError={handleError}
               onScan={handleScan}
-              style={{ width: "100%" }} // Full width for scanner view
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
             />
-          </div>
-        ) : (
-          <div>No event details found.</div>
-        )}
+          ) : (
+            <div>Loading camera...</div>
+          )}
+          <video ref={videoRef} style={{ width: "100%", height: "auto" }} />
+        </div>
       </div>
     </DashboardLayout>
   );
