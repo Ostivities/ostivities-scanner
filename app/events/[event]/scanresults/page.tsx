@@ -23,18 +23,11 @@ function ScanResults(): JSX.Element {
 
     const handleCheckIn = () => {
         // Open the TicketValidation modal
-        setIsTicketValidateVisible(true);
-
-        // Automatically transition to the CheckIn modal after 2-3 seconds
-        setTimeout(() => {
-            setIsTicketValidateVisible(false); // Close the TicketValidation modal
-            setIsCheckInVisible(true); // Open the CheckIn modal
-        }, 3000); // 3000ms = 3 seconds
+        setIsCheckInVisible(true);
     };
 
     const handleClose = () => {
         // Close both modals
-        setIsTicketValidateVisible(false);
         setIsCheckInVisible(false);
     };
 
@@ -190,16 +183,6 @@ function ScanResults(): JSX.Element {
                 </div>
 
                 {/* Conditionally render modals to avoid overlap */}
-                <Modal
-                    open={isTicketValidateVisible}
-                    onCancel={handleClose}
-                    footer={null}
-                    closable={false}
-                    centered
-                    width={400}
-                >
-                    <TicketValidationModal />
-                </Modal>
 
                 <Modal
                     open={isCheckInVisible}
