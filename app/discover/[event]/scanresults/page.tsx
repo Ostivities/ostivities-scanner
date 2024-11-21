@@ -3,6 +3,7 @@ import DashboardLayout from "@/app/components/DashboardLayout/DashboardLayout";
 import React, { useState } from "react";
 import Image from "next/image";
 import InfoCard from "@/app/components/DashboardLayout/InfoCard2";
+import InfoCardM from "@/app/components/DashboardLayout/OtherInfoCard2";
 import EventSection from "@/app/components/DashboardLayout/DiscoverEventSection";
 import { useGetDiscoveryEvents, useAddEventToDiscovery } from "@/app/hooks/event/event.hook";
 import { Skeleton, Button, Modal } from "antd";
@@ -79,7 +80,7 @@ function ScanResults(): JSX.Element {
                             shape="round"
                             style={{
                                 height: "300px",
-                                width: "1300px",
+                                width: "1160px",
                                 margin: "10px",
                                 maxWidth: "100%",
                             }}
@@ -106,13 +107,13 @@ function ScanResults(): JSX.Element {
                         alignItems: "center",
                         padding: "20px",
                         backgroundColor: "#ffffff",
-                        borderRadius: "8px",
+                        borderRadius: "20px",
                         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                         maxWidth: "600px",
-                        margin: "40px auto",
+                        margin: "35px auto",
                     }}
                 >
-                    <div style={{ width: "100%", marginBottom: "20px" }}>
+                    <div style={{ width: "100%", marginBottom: "23px",marginTop: "15px" }}>
                         {[
                             { label: "Guest Name", value: "Ayatullah Olowu" },
                             { label: "Ticket Type", value: "Collective" },

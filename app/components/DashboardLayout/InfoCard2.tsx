@@ -6,7 +6,7 @@ interface PropsI {
   title: string;
   about: string;
   image: string;
-  
+  className?: string;
   titleClass?: string; // Optional because you might not always pass it
   aboutClass?: string; // Optional
   statusClass?: string; // Optional
@@ -16,7 +16,7 @@ const InfoCard: React.FC<PropsI> = ({
   title,
   about,
   image,
-  
+  className,
   titleClass = "font-bricolage-grotesque",
   aboutClass = "font-bricolage-grotesque",
   statusClass = "font-bricolage-grotesque",
