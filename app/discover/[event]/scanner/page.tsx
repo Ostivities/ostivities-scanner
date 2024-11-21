@@ -18,6 +18,8 @@ const Scanner = () => {
   const [scannedData, setScannedData] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [deviceId, setDeviceId] = useState<string | null>(null);
+  const [devices, setDevices] = useState<MediaDeviceInfo[]>([]); // Store all video devices
+  const [currentDeviceIndex, setCurrentDeviceIndex] = useState<number>(0); // Track the current device
 
   // Function to capture a frame and decode the QR code
   const captureFrame = useCallback(() => {
@@ -48,21 +50,22 @@ const Scanner = () => {
     }
   }, [router, params]);
 
-  // Fetch available video devices and set the back camera
+  // Fetch available video devices and set the default back camera
   useEffect(() => {
     const getVideoDevices = async () => {
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
-        
         const videoDevices = devices.filter((device) => device.kind === "videoinput");
 
+        setDevices(videoDevices);
+
         // Look for a device with "back" or "rear" in the label
-        const backCamera = videoDevices.find((device) =>
+        const backCameraIndex = videoDevices.findIndex((device) =>
           device.label.toLowerCase().includes("back")
         );
 
-        // Use the first available camera as a fallback
-        setDeviceId(backCamera?.deviceId || videoDevices[0]?.deviceId || null);
+        setDeviceId(videoDevices[backCameraIndex >= 0 ? backCameraIndex : 0]?.deviceId || null);
+        setCurrentDeviceIndex(backCameraIndex >= 0 ? backCameraIndex : 0);
       } catch (err) {
         console.error("Error accessing video devices:", err);
         setError("Failed to access the camera. Please check your device permissions.");
@@ -76,6 +79,15 @@ const Scanner = () => {
     const interval = setInterval(captureFrame, 300); // Scan every 300ms
     return () => clearInterval(interval); // Clear interval on unmount
   }, [captureFrame]);
+
+  // Switch to the next available camera
+  const switchCamera = () => {
+    if (devices.length > 1) {
+      const nextIndex = (currentDeviceIndex + 1) % devices.length; // Loop through devices
+      setDeviceId(devices[nextIndex]?.deviceId || null);
+      setCurrentDeviceIndex(nextIndex);
+    }
+  };
 
   const title = (
     <div className="flex-center gap-2">
@@ -122,6 +134,16 @@ const Scanner = () => {
             <p>Loading camera...</p>
           )}
         </div>
+
+        <div className="controls" style={{ marginTop: "16px", textAlign: "center" }}>
+          {/* Switch Camera Button */}
+          {devices.length > 1 && (
+            <button onClick={switchCamera} className="switch-camera-btn">
+              Switch Camera
+            </button>
+          )}
+        </div>
+
         {scannedData && (
           <div className="scanned-data">
             <p>Scanned Data: {scannedData}</p>
