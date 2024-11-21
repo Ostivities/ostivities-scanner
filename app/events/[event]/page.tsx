@@ -317,7 +317,9 @@ const EventDetail = () => {
         alt=""
         height={25}
         width={25}
-        onClick={() => router.back()}
+        onClick={() => {
+          router.push(`/events`)
+        }}
         className="cursor-pointer"
       />
 

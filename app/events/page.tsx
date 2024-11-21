@@ -80,20 +80,7 @@ function Dashboard(): JSX.Element {
               />
             )}
           </button>
-          <button
-            className={`relative font-semibold pb-2 ${
-              activeTab === "popular" ? "text-red-600" : "text-gray-500"
-            }`}
-            onClick={() => setActiveTab("popular")}
-          >
-            Past Events
-            {activeTab === "popular" && (
-              <div
-                className="absolute left-0 bottom-[-2px] w-full h-[4px] bg-red-600 rounded-full"
-                style={{ borderRadius: "25px" }}
-              />
-            )}
-          </button>
+         
         </div>
 
         {/* Popular Events Content */}
