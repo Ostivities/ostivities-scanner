@@ -58,6 +58,8 @@ const Scanner = () => {
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter((device) => device.kind === "videoinput");
 
+        console.log("Available Video Devices:", videoDevices); // Log devices to check the list
+
         setDevices(videoDevices);
 
         // Look for a device with "back" or "rear" in the label
@@ -85,11 +87,11 @@ const Scanner = () => {
 
   // Switch to the next available camera
   const switchCamera = () => {
-    if (devices.length > 1) {
+    
       const nextIndex = (currentDeviceIndex + 1) % devices.length; // Loop through devices
       setDeviceId(devices[nextIndex]?.deviceId || null);
       setCurrentDeviceIndex(nextIndex);
-    }
+    
   };
 
   const title = (
@@ -143,13 +145,13 @@ const Scanner = () => {
             </div>
 
             {/* Switch Camera Button */}
-            {devices.length > 1 && (
+            
               <div className="controls" style={{ marginTop: "16px", textAlign: "center" }}>
                 <button onClick={switchCamera} className="switch-camera-btn">
                   Switch Camera
                 </button>
               </div>
-            )}
+            
           </>
         )}
 
