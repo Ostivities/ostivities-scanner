@@ -58,7 +58,9 @@ const Scanner = () => {
         alt="Back"
         height={25}
         width={25}
-        onClick={() => router.back()}
+        onClick={() => {
+          router.push(`/events/${params?.event}`)
+        }}
         className="cursor-pointer"
       />
       <h1 style={{ fontSize: "24px" }}>Scan Tickets</h1>
