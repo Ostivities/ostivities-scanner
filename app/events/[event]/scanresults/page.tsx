@@ -106,7 +106,7 @@ function ScanResults(): JSX.Element {
                         margin: "35px auto",
                     }}
                 >
-                    <div style={{ width: "100%", marginBottom: "23px",marginTop: "15px" }}>
+                    <div style={{ width: "100%", marginBottom: "23px", marginTop: "15px" }}>
                         {[
                             { label: "Guest Name", value: "Ayatullah Olowu" },
                             { label: "Ticket Type", value: "Collective" },

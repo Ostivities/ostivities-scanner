@@ -2,11 +2,7 @@
 import DashboardLayout from "@/app/components/DashboardLayout/DashboardLayout";
 import React, { useState } from "react";
 import DiscoverEvents from "../components/DashboardLayout/DiscoverEvents";
-import PopularEvents from "../components/DashboardLayout/PopularEvents";
 import AllEvents from "../components/DashboardLayout/AllEvents";
-import { Input, Select, Tabs, Skeleton } from "antd";
-import { useGetDiscoveryEvents } from "@/app/hooks/event/event.hook";
-import { PlusOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { Country, State } from "country-state-city";
 import { EVENT_TYPES } from "../utils/data";
@@ -85,7 +81,6 @@ function Dashboard(): JSX.Element {
 
         {/* Popular Events Content */}
         {/* Tab Content */}
-        {activeTab === "popular" && <PopularEvents />}
         {activeTab === "all" && <AllEvents />}
       </div>
     </DashboardLayout>

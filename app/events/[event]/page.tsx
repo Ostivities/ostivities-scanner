@@ -652,37 +652,6 @@ const EventDetail = () => {
                 </div>
               </div>
             </div>
-            <div className="flex gap-3">
-              <div className="bg-OWANBE_PRY/20 max-h-[41px] min-w-[41px] p-2 rounded-xl flex-center justify-center">
-                <Image
-                  src="/icons/location.svg"
-                  alt=""
-                  height={25}
-                  width={25}
-                />
-              </div>
-              <div>
-                <div
-                  className="text-sm"
-                  style={{
-                    fontWeight: 600,
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
-                  }}
-                >
-                  Location
-                </div>
-                <div
-                  style={{
-                    whiteSpace: "normal",
-                    wordWrap: "break-word",
-                    fontWeight: 300,
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
-                  }}
-                >
-                  {eventDetails?.address}
-                </div>
-              </div>
-            </div>
 
           </div>
           <div>
