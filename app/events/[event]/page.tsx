@@ -3,7 +3,7 @@
 import AvailableEvents from "@/app/components/DashboardLayout/OtherEvents";
 import DashboardLayout from "@/app/components/DashboardLayout/DashboardLayout";
 import { Heading5 } from "@/app/components/typography/Typography";
-import { Button, Dropdown, MenuProps, Space, Modal } from "antd";
+import { Button, Dropdown, MenuProps, Space, Modal, Skeleton } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useProfile } from "@/app/hooks/auth/auth.hook";
@@ -570,90 +570,139 @@ const EventDetail = () => {
 
         {/* !!!For small screen */}
         <div className="min-[870px]:hidden flex gap-10 flex-col">
-          <div className="relative w-full h-[320px] rounded-[2.5rem] overflow-hidden bg-white card-shadow ">
-            <Image
-              src={
-                eventDetails?.eventImage ? eventDetails.eventImage : placeholder
-              }
-              alt="Event Image"
-              fill
-              style={{ objectFit: "cover" }}
-              className=""
+          {getUserEventByUniqueKey?.isLoading ? (
+            <Skeleton.Button
+              active
+              className="relative w-full h-[320px] rounded-[2.5rem]"
+              shape="round"
+              style={{
+                height: "100%",
+                width: "100%",
+                margin: "6px",
+                maxWidth: "100%",
+              }}
             />
-            <div className=""></div>
-          </div>
-          <div className="border rounded-lg p-3 bg-white card-shadow flex justify-between items-center -mt-3 -mb-12">
-            <h2 className="text-xl font-BricolageGrotesqueMedium">
-              {eventDetails?.eventName}
-            </h2>
+          ) : (
+            <div className="relative w-full h-[320px] rounded-[2.5rem] overflow-hidden bg-white card-shadow ">
+              <Image
+                src={
+                  eventDetails?.eventImage
+                    ? eventDetails.eventImage
+                    : placeholder
+                }
+                alt="Event Image"
+                fill
+                style={{ objectFit: "cover" }}
+                className=""
+              />
+            </div>
+          )}
+          <div className="border rounded-lg p-3 bg-white card-shadow flex justify-between items-center -mt-3">
+            <div>
+              {getUserEventByUniqueKey?.isLoading ? (
+                <Skeleton.Button
+                  active
+                  className="relative h-7 sm: w-[150px] md:w-[120px] sm:w-200px] rounded-[1rem]"
+                  shape="round"
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    margin: "6px",
+                    maxWidth: "100%",
+                  }}
+                />
+              ) : (
+                <h2 className="text-xl font-BricolageGrotesqueMedium">
+                  {eventDetails?.eventName}
+                </h2>
+              )}
+            </div>
             <div className="flex items-center space-x-3">
             </div>
-          </div>
+          </div>{" "}
+
           <div className="rounded-lg flex flex-row items-center justify-center text-center p-3 w-full max-w-[95%] mx-auto">
           </div>
-          <div className=" flex flex-col gap-8">
-            <div className="flex items-start">
-              {/* Image Section */}
-              <div className="bg-OWANBE_PRY/20 p-2 max-h-[41px] min-w-[41px] rounded-xl flex-center justify-center">
-                <Image
-                  src="/icons/calendar.svg"
-                  alt=""
-                  height={25}
-                  width={25}
+
+          {getUserEventByUniqueKey?.isLoading ? (
+            <div className="flex flex-col -mt-16 gap-3">
+              {[...Array(3)].map((_, index) => (
+                <Skeleton
+                  key={index}
+                  avatar
+                  paragraph={{ rows: 1 }}
+                  active
+                  style={{
+                    width: "250px",
+                    margin: "10px 0",
+                  }}
                 />
-              </div>
-
-              {/* Text Section */}
-              <div className="ml-2">
-                <div
-                  className="text-sm"
-                  style={{
-                    fontWeight: 600,
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
-                  }}
-                >
-                  Date
+              ))}
+            </div>
+          ) : (
+            <div className="-mt-16 flex flex-col gap-8">
+              <div className="flex items-start">
+                {/* Image Section */}
+                <div className="bg-OWANBE_PRY/20 p-2 max-h-[41px] min-w-[41px] rounded-xl flex-center justify-center">
+                  <Image
+                    src="/icons/calendar.svg"
+                    alt=""
+                    height={25}
+                    width={25}
+                  />
                 </div>
-                <div
-                  style={{
-                    whiteSpace: "normal",
-                    wordWrap: "break-word",
-                    fontWeight: 300,
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
-                  }}
-                >
-                  {dateFormat(eventDetails?.startDate)} -{" "}
-                  {dateFormat(eventDetails?.endDate)}
+
+                {/* Text Section */}
+                <div className="ml-2">
+                  <div
+                    className="text-sm"
+                    style={{
+                      fontWeight: 600,
+                      fontFamily: "'Bricolage Grotesque', sans-serif",
+                    }}
+                  >
+                    Date
+                  </div>
+                  <div
+                    style={{
+                      whiteSpace: "normal",
+                      wordWrap: "break-word",
+                      fontWeight: 300,
+                      fontFamily: "'Bricolage Grotesque', sans-serif",
+                    }}
+                  >
+                    {dateFormat(eventDetails?.startDate)} -{" "}
+                    {dateFormat(eventDetails?.endDate)}
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="bg-OWANBE_PRY/20 max-h-[41px] min-w-[41px] p-2 rounded-xl flex-center justify-center">
+                  <Image src="/icons/time.svg" alt="" height={25} width={25} />
+                </div>
+                <div>
+                  <div
+                    className="text-sm"
+                    style={{
+                      fontWeight: 600,
+                      fontFamily: "'Bricolage Grotesque', sans-serif",
+                    }}
+                  >
+                    Time
+                  </div>
+                  <div
+                    style={{
+                      fontWeight: 300,
+                      fontFamily: "'Bricolage Grotesque', sans-serif",
+                    }}
+                  >
+                    {timeFormat(eventDetails?.startDate)} -{" "}
+                    {timeFormat(eventDetails?.endDate)} {eventDetails?.timeZone}
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="flex gap-3">
-              <div className="bg-OWANBE_PRY/20 max-h-[41px] min-w-[41px] p-2 rounded-xl flex-center justify-center">
-                <Image src="/icons/time.svg" alt="" height={25} width={25} />
-              </div>
-              <div>
-                <div
-                  className="text-sm"
-                  style={{
-                    fontWeight: 600,
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
-                  }}
-                >
-                  Time
-                </div>
-                <div
-                  style={{
-                    fontWeight: 300,
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
-                  }}
-                >
-                  {timeFormat(eventDetails?.startDate)} -{" "}
-                  {timeFormat(eventDetails?.endDate)} {eventDetails?.timeZone}
-                </div>
-              </div>
-            </div>
-
-          </div>
+          )}
           <div>
             <Heading3
               className="text-lg font-bold mb-3"
