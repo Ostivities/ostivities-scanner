@@ -51,7 +51,7 @@ function LoginForm(): JSX.Element {
         setCookie("is_registered", "registered", { path: "/" });
         successFormatter(response);
         form.resetFields();
-        router.push("/discover");
+        router.push("/events");
       }
     }
   };
