@@ -32,7 +32,7 @@ function ScanResults(): JSX.Element {
     };
 
     const { getDiscoveryEvents } = useGetDiscoveryEvents(1, 5);
-    const discoveryEvents = getDiscoveryEvents?.data?.data?.data;
+    const discoveryEvents = getDiscoveryEvents?.data?.data?.data?.events;
     const params = useParams<{ event: string }>();
     const isPending = getDiscoveryEvents?.isLoading;
 
