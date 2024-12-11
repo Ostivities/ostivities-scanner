@@ -542,3 +542,16 @@ export interface IGuestData {
 export interface IGuestCreate extends Partial<IGuestData> {
   eventId: string;
 }
+
+export interface ICheckInData {
+  email: string,
+  password: string
+}
+
+export interface ICheckInGuest{
+  check_in_date: string,
+  check_in_by: string,
+  event_id: string, 
+  guest_id: string, 
+  ticket_id: string
+}
