@@ -33,7 +33,7 @@ function EventNotFound(): JSX.Element {
             className="primary-btn w-full md:w-80 text-center text-white py-2 px-6 rounded-full text-lg font-bricolage"
             style={{ borderRadius: '25px' }}
           >
-            Back to discovery
+            Back to events
           </button>
 
         </div>
