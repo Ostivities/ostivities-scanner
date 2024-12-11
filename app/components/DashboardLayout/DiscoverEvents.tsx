@@ -45,7 +45,7 @@ const DiscoverEvents = () => {
         title="Next Event"
         titleClass="custom-title-class"
         style={{
-          // fontSize: "24px",
+          marginBottom: "15px",
           fontFamily: "Bricolage Grotesque, font-semibold",
         }} // Inline style
       >
@@ -59,7 +59,7 @@ const DiscoverEvents = () => {
                 shape="round"
                 style={{
                   height: '300px',
-                  width: '1300px',
+                  width: '350px',
                   margin: '10px',
                   maxWidth: '100%',
                 }}
