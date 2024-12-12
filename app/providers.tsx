@@ -8,7 +8,6 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import React, { ReactNode } from "react";
-import { DiscountProvider } from "./contexts/discount-context/DiscountContext";
 import FormProvider from "./contexts/form-context/FormContext";
 
 function makeQueryClient(): QueryClient {
@@ -52,9 +51,9 @@ export default function Providers({ children }: ProvidersProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <DiscountProvider>
+  
         <FormProvider>{children}</FormProvider>
-      </DiscountProvider>
+
     </QueryClientProvider>
   );
 }
