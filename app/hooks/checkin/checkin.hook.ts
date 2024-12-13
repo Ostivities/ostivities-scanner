@@ -4,7 +4,7 @@ import { CREATE_CHECK_IN_SCANNER, GET_GUEST_INFO_SCANNERS, CHECK_IN_GUEST } from
 import { ICheckInData, ICheckInGuest,} from "@/app/utils/interface";
 import { AxiosError, AxiosResponse } from "axios";
 import { errorFormatter, successFormatter } from "@/app/utils/helper";
-
+import { jwtDecode } from "jwt-decode";
 
 
 export const useCreateCheckInScanner = () => {
@@ -14,7 +14,16 @@ export const useCreateCheckInScanner = () => {
         },
         mutationKey: [CREATE_CHECK_IN_SCANNER],
         onSuccess: (data: AxiosResponse) => {
-        successFormatter(data);
+            if (data) {
+              const accessToken = data?.data?.data?.accessToken;
+              const decoded = jwtDecode(accessToken);
+              sessionStorage.setItem("userData", JSON.stringify(decoded));
+              sessionStorage.setItem("token", accessToken);
+              sessionStorage.setItem("tokenTimestamp", Date.now().toString());
+              localStorage.setItem("token", accessToken);
+              // localStorage.setItem()
+              localStorage.setItem("tokenTimestamp", Date.now().toString());
+            }
         },
         onError: (error: AxiosError | any) => {
         errorFormatter(error);

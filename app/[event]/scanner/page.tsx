@@ -18,6 +18,8 @@ const Scanner = () => {
   const [scannedData, setScannedData] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  console.log(scannedData, "scannedData")
+  
   const captureFrame = useCallback(() => {
     if (
       webcamRef.current &&
@@ -40,7 +42,7 @@ const Scanner = () => {
         if (qrCode && qrCode.data) {
           setScannedData(qrCode.data);
           console.log("Scanned QR Code:", qrCode.data);
-          router.push(`/events/${params?.event}/scanresults`);
+          router.push(`/${params?.event}/scanresults`);
         }
       }
     }

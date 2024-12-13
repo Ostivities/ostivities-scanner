@@ -1,26 +1,8 @@
 import { API_SERVICE } from "@/app/utils/service";
-import { useMutation, useQuery, } from "@tanstack/react-query";
-import { CREATE_GUEST, GET_EVENT_GUESTS, GET_TICKET_GUESTS } from "@/app/utils/constants";
-import { IGuestCreate, IGuestData } from "@/app/utils/interface";
-import { AxiosError, AxiosResponse } from "axios";
-import { errorFormatter, successFormatter } from "@/app/utils/helper";
+import { useQuery, } from "@tanstack/react-query";
+import { GET_EVENT_GUESTS, GET_TICKET_GUESTS } from "@/app/utils/constants";
 
 
-export const useRegisterGuest = () => {
-    const registerGuest = useMutation({
-        mutationFn: (data: IGuestCreate) => {
-        return API_SERVICE._registerGuest(data);
-        },
-        mutationKey: [CREATE_GUEST],
-        onSuccess: (data: AxiosResponse) => {
-        successFormatter(data);
-        },
-        onError: (error: AxiosError | any) => {
-        errorFormatter(error);
-        },
-    });
-    return { registerGuest };
-}
 
 export const useGetEventGuests = (eventId: string, eventid:string) => {
     const getEventGuests = useQuery({

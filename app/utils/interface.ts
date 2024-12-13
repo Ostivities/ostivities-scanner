@@ -545,7 +545,8 @@ export interface IGuestCreate extends Partial<IGuestData> {
 
 export interface ICheckInData {
   email: string,
-  password: string
+  password: string,
+  staff_email?: string
 }
 
 export interface ICheckInGuest{

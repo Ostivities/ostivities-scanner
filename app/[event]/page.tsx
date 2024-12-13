@@ -211,7 +211,6 @@ const EventDetail = () => {
   const handleCloseModal = () => setIsModalOpen(false);
   const handleCloseModal2 = () => setShowModal(false);
 
-  const eventUrl = eventDetails?.eventURL;
   const eventTitle = eventDetails?.eventName;
 
   const userFullName =
@@ -221,18 +220,6 @@ const EventDetail = () => {
       : `${eventDetails?.user?.businessName ?? ""}`;
 
   const socialLinks = eventDetails?.socials;
-  const twitterLink = socialLinks?.find(
-    (link: any) => link?.name.toLowerCase() === "twitter"
-  );
-  const instagramLink = socialLinks?.find(
-    (link: any) => link?.name.toLowerCase() === "instagram"
-  );
-  const websiteLink = socialLinks?.find(
-    (link: any) => link?.name.toLowerCase() === "website"
-  );
-  const facebookLink = socialLinks?.find(
-    (link: any) => link?.name.toLowerCase() === "facebook"
-  );
 
   // Countdown logic
   const eventDate = eventDetails?.startDate;
@@ -240,74 +227,10 @@ const EventDetail = () => {
   const eventdates = new Date(eventDate).getTime();
   const eventEnddates = eventEndDate ? new Date(eventEndDate).getTime() : null;
 
-  const [timeRemaining, setTimeRemaining] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
 
   const [isEventStarted, setIsEventStarted] = useState(false);
   const [isRegistrationClosed, setIsRegistrationClosed] = useState(false);
 
-  useEffect(() => {
-    if (eventDetails?.enable_registration === false) {
-      setIsRegistrationClosed(true);
-    }
-
-    const countdownInterval = setInterval(() => {
-      const now = new Date().getTime();
-      const distanceToStart = eventdates - now;
-      const distanceToEnd = eventEnddates ? eventEnddates - now : null;
-
-      // Check if the event has started
-      if (distanceToStart > 0) {
-        // Event hasn't started yet
-        setIsEventStarted(false);
-        setIsRegistrationClosed(false); // Registration is open
-
-        const days = Math.floor(distanceToStart / (1000 * 60 * 60 * 24));
-        const hours = Math.floor(
-          (distanceToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes = Math.floor(
-          (distanceToStart % (1000 * 60 * 60)) / (1000 * 60)
-        );
-        const seconds = Math.floor((distanceToStart % (1000 * 60)) / 1000);
-
-        setTimeRemaining({ days, hours, minutes, seconds });
-      } else if (distanceToEnd && distanceToEnd > 0) {
-        // Event has started and is ongoing
-        setIsEventStarted(true);
-        setIsRegistrationClosed(false); // Registration is still open
-
-        const days = Math.floor(distanceToEnd / (1000 * 60 * 60 * 24));
-        const hours = Math.floor(
-          (distanceToEnd % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes = Math.floor(
-          (distanceToEnd % (1000 * 60 * 60)) / (1000 * 60)
-        );
-        const seconds = Math.floor((distanceToEnd % (1000 * 60)) / 1000);
-
-        setTimeRemaining({ days, hours, minutes, seconds });
-      } else if (eventDetails?.enable_registration === false) {
-        setIsRegistrationClosed(true);
-      } else {
-        // Event has ended
-        setIsEventStarted(false);
-        setIsRegistrationClosed(true); // Close registration
-        clearInterval(countdownInterval);
-      }
-      if (eventDetails?.enable_registration === false) {
-        setIsRegistrationClosed(true); // Close registration
-      } else {
-        setIsRegistrationClosed(false);
-      }
-    }, 1000);
-
-    return () => clearInterval(countdownInterval);
-  }, [eventDate, eventDetails, eventEndDate, eventEnddates, eventdates]);
 
   const title = (
     <div className="flex-center gap-2">
@@ -326,21 +249,6 @@ const EventDetail = () => {
     </div>
   );
 
-  const RegistrationTypes: MenuProps["items"] = [
-    {
-      label: (
-        <Link
-          href={`/events/${params?.event}/tickets`}
-          className="font-BricolageGrotesqueRegular font-normal text-md text-OWANBE_DARK"
-        >
-          Register as a guest
-        </Link>
-      ),
-      key: "1",
-    },
-
-  ];
-
   return (
     <DashboardLayout title={title} isLoggedIn>
       <Head>
@@ -355,217 +263,6 @@ const EventDetail = () => {
       </Head>
 
       <section>
-        <div className="hidden min-[870px]:flex gap-10 md:flex-row ">
-          <div className="relative w-[400px] h-[520px] rounded-[3.125rem] overflow-hidden bg-white card-shadow ">
-            <Image
-              src={
-                eventDetails?.eventImage ? eventDetails.eventImage : placeholder
-              }
-              alt="Event Image"
-              fill
-              style={{ objectFit: "cover" }}
-              className=""
-            />
-            <div className=" "></div>
-          </div>
-          <div className="py-8">
-            <Heading5 className="text-2xl" content={"About this event"} />
-            <div className="mt-14 flex flex-col gap-8">
-              <div className="flex items-start">
-                {/* Image Section */}
-                <div className="bg-OWANBE_PRY/20 p-2 rounded-xl flex-center justify-center">
-                  <Image
-                    src="/icons/calendar.svg"
-                    alt=""
-                    height={25}
-                    width={25}
-                  />
-                </div>
-
-                {/* Text Section */}
-                <div className="ml-2">
-                  <div
-                    className="text-sm"
-                    style={{
-                      fontWeight: 600,
-                      fontFamily: "'Bricolage Grotesque', sans-serif",
-                    }}
-                  >
-                    Date
-                  </div>
-                  <div
-                    style={{
-                      width: "140px",
-                      whiteSpace: "normal",
-                      wordWrap: "break-word",
-                      fontWeight: 300,
-                      fontFamily: "'Bricolage Grotesque', sans-serif",
-                    }}
-                  >
-                    {dateFormat(eventDetails?.startDate)} -{" "}
-                    {dateFormat(eventDetails?.endDate)}
-                  </div>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="bg-OWANBE_PRY/20 p-2 rounded-xl flex-center justify-center">
-                  <Image src="/icons/time.svg" alt="" height={25} width={25} />
-                </div>
-                <div>
-                  <div
-                    className="text-sm"
-                    style={{
-                      fontWeight: 600,
-                      fontFamily: "'Bricolage Grotesque', sans-serif",
-                    }}
-                  >
-                    Time
-                  </div>
-                  <div
-                    style={{
-                      fontWeight: 300,
-                      fontFamily: "'Bricolage Grotesque', sans-serif",
-                    }}
-                  >
-                    {timeFormat(eventDetails?.startDate)} -{" "}
-                    {timeFormat(eventDetails?.endDate)} {eventDetails?.timeZone}
-                  </div>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="bg-OWANBE_PRY/20 p-2 rounded-xl flex-center justify-center">
-                  <Image
-                    src="/icons/location.svg"
-                    alt=""
-                    height={25}
-                    width={25}
-                  />
-                </div>
-                <div>
-                  <div
-                    className="text-sm"
-                    style={{
-                      fontWeight: 600,
-                      fontFamily: "'Bricolage Grotesque', sans-serif",
-                    }}
-                  >
-                    Location
-                  </div>
-                  <div
-                    style={{
-                      width: "190px",
-                      whiteSpace: "normal",
-                      wordWrap: "break-word",
-                      fontWeight: 300,
-                      fontFamily: "'Bricolage Grotesque', sans-serif",
-                    }}
-                  >
-                    {eventDetails?.address}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-          <div className="font-BricolageGrotesqueRegular flex-1 h-fit my-auto border-l border-black px-6">
-            <div className="py-8">
-              <div className="border rounded-lg p-3 bg-white card-shadow flex justify-between items-center">
-                <h2 className="text-xl font-BricolageGrotesqueMedium">
-                  {eventDetails?.eventName}
-                </h2>
-
-                <div className="flex items-center space-x-3">
-                  {" "}
-
-                </div>
-              </div>
-              <div className="mt-1">
-                <div className="rounded-lg overflow-hidden flex flex-row items-center justify-center text-center p-4">
-                </div>
-                <ReadMoreHTML
-                  htmlContent={eventDetails?.eventDetails || ""}
-                  maxLength={250}
-                />
-                <div className="flex justify-center mt-12">
-                  {eventDetails?.vendor_registration === true ? (
-                    <>
-                      <Dropdown
-                        disabled={isRegistrationClosed} // Disable if registration is closed
-                        menu={{
-                          items: RegistrationTypes,
-                          onClick: handleMenuClick,
-                        }}
-                      >
-                        <Button
-                          type={
-                            pathname.includes("register") ? "primary" : "text"
-                          }
-                          className="primary-btn w-full"
-                          style={{
-                            borderRadius: "25px",
-                            fontFamily: "BricolageGrotesqueMedium",
-                            backgroundColor: isRegistrationClosed
-                              ? "#cccccc"
-                              : "#e20000", // Gray for disabled, red for active
-                            color: isRegistrationClosed ? "#666666" : "white",
-                            height: "50px", // Adjust height as needed
-                            fontSize: "16px", // Increase text size
-                            border: "none", // Remove border if needed
-                          }}
-                          title={
-                            isRegistrationClosed ? "Registration Closed" : ""
-                          }
-                          disabled={isRegistrationClosed} // Disable button when registration is closed
-                        >
-                          <Space>
-                            {eventDetails?.enable_registration === false
-                              ? "Registration Closed"
-                              : "Scan Tickets"}
-                            <IoChevronDown />
-                          </Space>
-                        </Button>
-                      </Dropdown>
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        type={
-                          pathname.includes("register") ? "primary" : "text"
-                        }
-                        onClick={() =>
-                          router.push(`/events/${params?.event}/scanner`)
-                        }
-                        className="primary-btn w-full"
-                        style={{
-                          borderRadius: "25px",
-                          fontFamily: "BricolageGrotesqueMedium",
-                          backgroundColor: isRegistrationClosed
-                            ? "#cccccc"
-                            : "#e20000", // Gray for disabled, red for active
-                          color: isRegistrationClosed ? "#666666" : "white",
-                          height: "50px", // Adjust height as needed
-                          fontSize: "16px", // Increase text size
-                          border: "none", // Remove border if needed
-                        }}
-                        title={
-                          isRegistrationClosed ? "Registration Closed" : ""
-                        }
-                        disabled={isRegistrationClosed} // Disable button when registration is closed
-                      >
-                        <Space>
-                          {eventDetails?.enable_registration === false
-                            ? "Registration Closed"
-                            : "Scan Tickets"}
-                        </Space>
-                      </Button>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
 
         {/* !!!For small screen */}
         <div className="min-[870px]:hidden flex gap-10 flex-col">
@@ -715,13 +412,6 @@ const EventDetail = () => {
             <div className="flex justify-center mt-12">
               {eventDetails?.vendor_registration === true ? (
                 <>
-                  <Dropdown
-                    disabled={isRegistrationClosed} // Disable if registration is closed
-                    menu={{
-                      items: RegistrationTypes,
-                      onClick: handleMenuClick,
-                    }}
-                  >
                     <Button
                       type={pathname.includes("register") ? "primary" : "text"}
                       className="primary-btn w-full "
@@ -746,14 +436,13 @@ const EventDetail = () => {
                         <IoChevronDown />
                       </Space>
                     </Button>
-                  </Dropdown>
                 </>
               ) : (
                 <>
                   <Button
                     type={pathname.includes("register") ? "primary" : "text"}
                     onClick={() =>
-                      router.push(`/events/${params?.event}/scanner`)
+                      router.push(`/${params?.event}/scanner`)
                     }
                     className="primary-btn w-full"
                     style={{

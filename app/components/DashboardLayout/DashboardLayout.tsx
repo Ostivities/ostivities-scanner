@@ -190,7 +190,6 @@ function DashboardLayout({
         try {
           return JSON.parse(storedProfileData); // Return parsed data if valid
         } catch (error) {
-          console.error("Failed to parse profileData:", error);
         }
       }
       return null;
@@ -200,12 +199,6 @@ function DashboardLayout({
   const [profileData, setProfileData] = useState(initialProfileData);
   const [isProfileReady, setIsProfileReady] = useState(false);
 
-  // useEffect(() => {
-  //   if (localStorage.getItem('profileData') !== "undefined") {
-  //     setProfileData(localStorage.getItem('profileData'));
-  //   }
-  //   }, []);
-  console.log("profileData", profileData);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -219,20 +212,17 @@ function DashboardLayout({
         try {
           setProfileData(JSON.parse(storedProfileData));
         } catch (error) {
-          console.error("Failed to parse profileData:", error);
+          // console.error("Failed to parse profileData:", error);
         }
       }
       setIsProfileReady(true);
     }
   }, [initialProfileData]);
 
-  // console.log(profileData, "profileData");
 
   const { Header, Sider, Content } = Layout;
   const [collapsed, setCollapsed] = useLocalStorage<boolean>("sidebar", true);
 
-  // const userProfile = isLoggedIn ? profile : null;
-  // console.log(userProfile, "userProfile");
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -247,7 +237,6 @@ function DashboardLayout({
   const accountType =
     profile?.data?.data?.data?.accountType || profileData?.accountType;
 
-  console.log(accountType, "accountType");
 
   const userName =
     accountType === ACCOUNT_TYPE.PERSONAL
@@ -258,8 +247,6 @@ function DashboardLayout({
       : profile?.data?.data?.data?.businessName ||
         profileData?.businessName ||
         "";
-  console.log(userName, "userName");
-  // setCookie("user_fullname", userName)
   const avatarName =
     accountType === ACCOUNT_TYPE.PERSONAL
       ? profileData?.firstName?.charAt(0) + profileData?.lastName?.charAt(0)
@@ -294,7 +281,6 @@ function DashboardLayout({
   const showNavLinks = !pathCheck && pathname !== "/events";
 
   const toggleSidebar = () => {
-    console.log(collapsed);
     setCollapsed((prevValues) => !prevValues);
   };
 

@@ -1,6 +1,6 @@
 "use client";
 import { Small } from "@/app/components/typography/Typography";
-import { useLogin } from "@/app/hooks/auth/auth.hook";
+import { useCreateCheckInScanner } from "@/app/hooks/checkin/checkin.hook";
 import { successFormatter } from "@/app/utils/helper";
 import { ILogin } from "@/app/utils/interface";
 import { Button, Checkbox, Form, FormProps, Input, message, Space } from "antd";
@@ -8,9 +8,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
+import { jwtDecode } from "jwt-decode";
+
+
+interface DecodedToken {
+  event_unique_key: string;
+}
 
 function LoginForm(): JSX.Element {
-  const { loginUser } = useLogin();
+  const { createCheckInScanner } = useCreateCheckInScanner();
   const [form] = Form.useForm();
   const router = useRouter();
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -18,6 +24,7 @@ function LoginForm(): JSX.Element {
     "user_email",
     "user_password",
     "user_inactive_email",
+    "userData"
   ]);
 
   useEffect(() => {
@@ -33,12 +40,10 @@ function LoginForm(): JSX.Element {
     const { remember, ...rest } = value;
 
     if (value) {
-      const response = await loginUser.mutateAsync({ ...rest });
-      if (response?.data?.data?.is_active === false) {
-        setCookie("user_inactive_email", value.email, { path: "/" });
-        message.info(response?.data?.data?.message);
-        router.push("/verify-account");
-      } else {
+      const response = await createCheckInScanner.mutateAsync({ 
+         ...rest 
+      });
+      if(response.status === 200) {
         // Handle "Remember Me" functionality
         if (remember) {
           setCookie("user_email", value.email, { path: "/", expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) }); // 7 days expiry
@@ -48,10 +53,13 @@ function LoginForm(): JSX.Element {
           removeCookie("user_password", { path: "/" });
         }
 
+        const decoded = jwtDecode<DecodedToken>(response?.data?.data?.accessToken);
+        console.log(decoded);
+        const event_unique_key = decoded?.event_unique_key;
         setCookie("is_registered", "registered", { path: "/" });
         successFormatter(response);
         form.resetFields();
-        router.push("/events");
+        router.push(`/${event_unique_key}`);
       }
     }
   };
@@ -135,7 +143,7 @@ function LoginForm(): JSX.Element {
             width: "100%",
             height: "51px",
           }}
-          loading={loginUser.isPending}
+          loading={createCheckInScanner?.isPending}
         >
           Sign In
         </Button>
