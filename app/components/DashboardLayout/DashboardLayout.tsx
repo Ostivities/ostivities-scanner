@@ -15,6 +15,7 @@ import {
   FieldTimeOutlined,
   FileAddOutlined,
   FileSearchOutlined,
+  LogoutOutlined,
   PlusCircleOutlined,
   QuestionCircleOutlined,
   SettingOutlined,
@@ -414,13 +415,44 @@ function DashboardLayout({
               style={{ width: "130px", height: "50px", cursor: "pointer" }}
             />
           </Link>
-
-          <Image
+          <div
+  className="flex items-center justify-center cursor-pointer"
+  style={{
+    backgroundColor: "#FADEDE", // Faded red background
+    borderRadius: "8px", // Rounded corners
+    padding: "8px 12px", // Padding inside the rectangle
+    
+  }}
+  onClick={async () => {
+    const res = await logoutUser.mutateAsync();
+    if (res.status === 200) {
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("tokenTimestamp");
+      localStorage.removeItem("token");
+      localStorage.removeItem("tokenTimestamp");
+      localStorage.removeItem("profileData");
+      removeCookie("forgot_email");
+      removeCookie("event_id");
+      removeCookie("form_stage");
+      removeCookie("stage_one");
+      removeCookie("stage_two");
+      removeCookie("stage_three");
+      removeCookie("profileData");
+      router.push("/login");
+    }
+  }}
+  title="Sign Out"
+>
+  <LogoutOutlined
+    style={{ fontSize: "20px", color: "#E20000" }} // Icon size and color
+  />
+</div>
+          {/* <Image
             src={Hamburger}
             alt="Hamburger Menu"
             style={{ width: "40px", height: "35px", cursor: "pointer" }}
             onClick={showDrawer}
-          />
+          /> */}
         </div>
         <Drawer
           closeIcon={
