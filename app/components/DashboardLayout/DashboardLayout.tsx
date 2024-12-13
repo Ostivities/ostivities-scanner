@@ -86,6 +86,7 @@ function DashboardLayout({
   children,
   title,
   steppers,
+  event_unique_key,
   extraComponents,
 }: IDashboard): JSX.Element {
   const router = useRouter();
@@ -324,7 +325,7 @@ function DashboardLayout({
           }}
         >
           <div className="demo-logo flex flex-row items-center space-x-12">
-            <a href="/">
+            <a href={`/${event_unique_key}`}>
               <Image
                 src={OwanbeLogo}
                 alt="Ostivities Logo"
@@ -400,36 +401,6 @@ function DashboardLayout({
                   size={"small"}
                 >
                  
-                  <Dropdown menu={{ items }} trigger={["click", "hover"]}>
-                    <div className="flex-center gap-4 cursor-pointer">
-                      <Image
-                        src={
-                          profile?.data?.data?.data?.image ||
-                          profileData?.image ||
-                          emptyImage
-                        } // Fallback to imported empty image
-                        alt="Profile Picture"
-                        width={40} // Adjust this to match the previous avatar size if needed
-                        height={40} // Adjust this to match the previous avatar size if needed
-                        className="object-cover rounded-full"
-                        style={{
-                          cursor: "pointer", // Keep the cursor style for interaction
-                        }}
-                      />
-
-                      <div className="h-fit flex gap-4">
-                        <div className="flex flex-col justify-start">
-                          <h3 className=" text-sm text-OWANBE_TABLE_CELL">
-                            {userName}
-                          </h3>
-                          <span className="text-xs text-[#8C95A1]">
-                            {account_type}
-                          </span>
-                        </div>
-                        <CaretDownFilled />
-                      </div>
-                    </div>
-                  </Dropdown>
                 </Space>
               </>
             )
@@ -471,96 +442,6 @@ function DashboardLayout({
           open={open}
           style={{ borderBottom: "0px solid !important", width: "100%" }}
         >
-          {profile?.isFetching === true || !isProfileReady ? (
-            <>
-              <Skeleton.Button
-                active
-                shape="round"
-                style={{
-                  height: "10px",
-                  width: "10px",
-                  maxWidth: "100%",
-                }}
-              />
-            </>
-          ) : profileData === null && !isLoggedIn ? (
-            <>
-              {/* Show NAV_LINKS when user is not logged in */}
-              {/* <div className="flex flex-row items-center space-x-8"> */}
-              {/* </div> */}
-
-              {/* Show buttons based on isRegistered status */}
-              <div className="font-BricolageGrotesqueMedium items-center flex flex-col justify-center cursor-pointer">
-                {NAV_LINKS.map((link: INavLinks) => (
-                  <Link
-                    href={link.link}
-                    key={link.link + link.name}
-                    className="font-BricolageGrotesqueMedium py-3 text-center"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-               
-              </div>
-            </>
-          ) : (
-            (profileData !== null || profile?.isFetched === true) &&
-            isLoggedIn && (
-              <>
-                <div className="font-BricolageGrotesqueMedium items-center flex flex-col justify-center cursor-pointer">
-                  <Image
-                    src={
-                      profile?.data?.data?.data?.image ||
-                      profileData?.image ||
-                      emptyImage
-                    } // Fallback to imported empty image
-                    alt="Profile Picture"
-                    width={50} // Adjust this to match the previous avatar size if needed
-                    height={50} // Adjust this to match the previous avatar size if needed
-                    className="object-cover rounded-full"
-                    style={{
-                      cursor: "pointer", // Keep the cursor style for interaction
-                    }}
-                  />
-                  <div className="h-fit py-3">
-                    <h3 className="font-BricolageGrotesqueMedium text-sm text-OWANBE_TABLE_CELL">
-                      {userName}
-                    </h3>
-                  </div>
-                </div>
-                <hr />
-                {EVENT_NAV_LINKS.map((link: INavLinks) => (
-                  <p
-                    key={link.link + link.name}
-                    className="font-BricolageGrotesqueMedium py-3 text-center"
-                  >
-                    <Link
-                      href={link.link}
-                      onClick={onClose}
-                      style={{
-                        color:
-                          typeof window !== "undefined" &&
-                          window.innerWidth <= 768
-                            ? "#000000"
-                            : "#000000", // Check if window is defined
-                      }}
-                      onMouseEnter={(e) => {
-                        (e.target as HTMLElement).style.color = "#E20000"; // Change to red on hover
-                      }}
-                      onMouseLeave={(e) => {
-                        if (typeof window !== "undefined") {
-                          (e.target as HTMLElement).style.color =
-                            window.innerWidth <= 768 ? "#000000" : "#000000";
-                        }
-                      }}
-                    >
-                      {link.name}
-                    </Link>
-                  </p>
-                ))}
-              </>
-            )
-          )}
 
           <div className="flex flex-col items-center justify-center space-y-4 mt-7 mx-auto w-3/5 md:w-1/5">
             {!isLoggedIn ? (

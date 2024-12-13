@@ -15,11 +15,8 @@ const Scanner = () => {
   const webcamRef = useRef<Webcam>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const [scannedData, setScannedData] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  console.log(scannedData, "scannedData")
-  
   const captureFrame = useCallback(() => {
     if (
       webcamRef.current &&
@@ -40,9 +37,10 @@ const Scanner = () => {
         const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
 
         if (qrCode && qrCode.data) {
-          setScannedData(qrCode.data);
-          console.log("Scanned QR Code:", qrCode.data);
-          router.push(`/${params?.event}/scanresults`);
+          // setScannedData(JSON.parse(qrCode.data));
+          console.log("Scanned QR Code:", JSON.parse(qrCode.data));
+          const Code = JSON.parse(qrCode.data);
+          router.push(`/${params?.event}/scanresults/${Code?.event_id}/${Code?.guest_id}/${Code?.ticket_id}`);
         }
       }
     }
@@ -94,11 +92,11 @@ const Scanner = () => {
             style={{ display: "none" }} // Canvas is hidden
           />
         </div>
-        {scannedData && (
+        {/* {scannedData && (
           <div className="scanned-data">
             <p>Scanned Data: {scannedData}</p>
           </div>
-        )}
+        )} */}
       </div>
     </DashboardLayout>
   );

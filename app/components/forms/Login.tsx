@@ -24,7 +24,8 @@ function LoginForm(): JSX.Element {
     "user_email",
     "user_password",
     "user_inactive_email",
-    "userData"
+    "userData",
+    "token"
   ]);
 
   useEffect(() => {
@@ -57,6 +58,7 @@ function LoginForm(): JSX.Element {
         console.log(decoded);
         const event_unique_key = decoded?.event_unique_key;
         setCookie("is_registered", "registered", { path: "/" });
+        setCookie("token", response?.data?.data?.accessToken, { path: "/" })
         successFormatter(response);
         form.resetFields();
         router.push(`/${event_unique_key}`);

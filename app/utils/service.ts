@@ -266,7 +266,7 @@ export class API_SERVICE {
 
   static async _getGuestInfoScanner(event_id: string, guest_id: string, ticket_id: string): Promise<AxiosResponse> {
     return await instance({
-      url: `/check_in/${event_id}/${guest_id}/ ${ticket_id}`,
+      url: `/check_in/${event_id}/${guest_id}/${ticket_id}`,
       method: HttpMethod.GET,
     });
   }
@@ -274,7 +274,7 @@ export class API_SERVICE {
   static async _checkInGuestScanner(data: ICheckInGuest): Promise<AxiosResponse> {
     const { event_id, guest_id, ticket_id, ...rest } = data;
     return await instance({
-      url: `/check_in/${event_id}/${guest_id}/ ${ticket_id}`,
+      url: `/check_in/${event_id}/${guest_id}/${ticket_id}`,
       method: HttpMethod.POST,
       data: { ...rest }
     });

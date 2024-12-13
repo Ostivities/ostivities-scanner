@@ -1,6 +1,6 @@
 import InfoCard from "./InfoCard";
 import EventSection from "./DiscoverEventSection";
-import { useGetDiscoveryEvents, useAddEventToDiscovery, usePublishEvent } from "@/app/hooks/event/event.hook";
+import { useGetDiscoveryEvents } from "@/app/hooks/event/event.hook";
 import { Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import { IEventDetails } from "@/app/utils/interface";
@@ -11,10 +11,8 @@ const DiscoverEvents = () => {
   const [searchText, setSearchText] = useState("");
   const { getDiscoveryEvents } = useGetDiscoveryEvents(1, 5);
   const discoveryEvents = getDiscoveryEvents?.data?.data?.data?.events;
-  const { addEventToDiscovery } = useAddEventToDiscovery();
   const [expiredEventsId, setExpiredEventsId] = useState<string[]>([]);
   // console.log(discoveryEvents, "discoveryEvents")
-  const { publishEvent } = usePublishEvent();
 
   const isPending = getDiscoveryEvents?.isLoading;
 
@@ -27,17 +25,17 @@ const DiscoverEvents = () => {
   const expiredEvents = allEventsDate?.filter((event: IEventDetails) => new Date(event?.endDate).getTime() < new Date().getTime());
   const expiredEventsIdList = expiredEvents?.map((event: IEventDetails) => event?.id);
   const filteredEvents = discoveryEvents?.filter((event: IEventDetails) => new Date(event.endDate).getTime() > new Date().getTime());
-  useEffect(() => {
-    const checkEventStatus = async () => {
-      const response =  await publishEvent.mutateAsync({
-        ids: [...expiredEventsIdList],
-        mode: PUBLISH_TYPE.INACTIVE
-      })
-    }
-    if(expiredEventsIdList?.length > 0) {
-      checkEventStatus();
-    }
-  },[expiredEventsIdList])
+  // useEffect(() => {
+  //   const checkEventStatus = async () => {
+  //     const response =  await publishEvent.mutateAsync({
+  //       ids: [...expiredEventsIdList],
+  //       mode: PUBLISH_TYPE.INACTIVE
+  //     })
+  //   }
+  //   if(expiredEventsIdList?.length > 0) {
+  //     checkEventStatus();
+  //   }
+  // },[expiredEventsIdList])
 
   return (
     <>

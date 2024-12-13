@@ -78,3 +78,8 @@ export enum PAYMENT_METHODS {
   CARD = 'CARD',
   FREE='FREE',
 }
+
+export enum CHECK_IN_STATUS {
+  CHECKED_IN = 'CHECKED_IN',
+  NOT_CHECKED_IN = 'NOT_CHECKED_IN',
+}

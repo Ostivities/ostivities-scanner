@@ -1,17 +1,13 @@
 "use client";
 
 import DashboardLayout from "@/app/components/DashboardLayout/DashboardLayout";
-import { Heading5 } from "@/app/components/typography/Typography";
 import { Button, Dropdown, MenuProps, Space, Modal, Skeleton } from "antd";
 import Image from "next/image";
-import Link from "next/link";
-import { useProfile } from "@/app/hooks/auth/auth.hook";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { IoChevronDown } from "react-icons/io5";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { dateFormat, timeFormat } from "@/app/utils/helper";
 import { useGetUserEventByUniqueKey } from "@/app/hooks/event/event.hook";
-import { useCookies } from "react-cookie";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -19,18 +15,13 @@ import {
   WhatsappShareButton,
   FacebookIcon,
   WhatsappIcon,
-  TwitterIcon,
   LinkedinIcon,
   XIcon,
 } from "react-share";
 import {
-  ShareAltOutlined,
   CopyOutlined,
-  EditOutlined,
 } from "@ant-design/icons";
 import ReadMoreHTML from "@/app/components/ReadMoreHTML";
-import start from "@/public/Startsin.svg";
-import end from "@/public/Endsin.svg";
 import placeholder from "@/public/placeholder.svg";
 import Head from "next/head";
 import { Tooltip } from "antd";
@@ -250,7 +241,7 @@ const EventDetail = () => {
   );
 
   return (
-    <DashboardLayout title={title} isLoggedIn>
+    <DashboardLayout title={title} event_unique_key={params?.event} isLoggedIn>
       <Head>
         <meta property="og:title" content={eventDetails?.eventName} />
         <meta property="og:description" content={eventDetails?.eventDetails} />

@@ -33,6 +33,7 @@ export interface IDashboard {
   children?: React.ReactNode;
   title?: string | React.ReactNode;
   tab?: React.ReactNode;
+  event_unique_key?: string;
   steppers?: React.ReactNode;
   extraComponents?: React.ReactNode;
   isLoggedIn?: Boolean | React.ReactNode;

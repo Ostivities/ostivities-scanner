@@ -42,7 +42,7 @@ const CheckInSuccessModal = ({
             <button
               onClick={() => {
                 onOk();
-                router.push(`/events/${params?.event}/scanner`)
+                router.push(`/${params?.event}/scanner`)
               }}
               className="block primary-btn font-normal text-base mt-10 px-32"
             >
