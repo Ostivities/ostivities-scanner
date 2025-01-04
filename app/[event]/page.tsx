@@ -1,216 +1,31 @@
 "use client";
 
 import DashboardLayout from "@/app/components/DashboardLayout/DashboardLayout";
-import { Button, Dropdown, MenuProps, Space, Modal, Skeleton } from "antd";
+import { Button,  Space, Skeleton } from "antd";
 import Image from "next/image";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { IoChevronDown } from "react-icons/io5";
 import React, { useState } from "react";
 import { dateFormat, timeFormat } from "@/app/utils/helper";
 import { useGetUserEventByUniqueKey } from "@/app/hooks/event/event.hook";
-import {
-  FacebookShareButton,
-  TwitterShareButton,
-  LinkedinShareButton,
-  WhatsappShareButton,
-  FacebookIcon,
-  WhatsappIcon,
-  LinkedinIcon,
-  XIcon,
-} from "react-share";
-import {
-  CopyOutlined,
-} from "@ant-design/icons";
 import ReadMoreHTML from "@/app/components/ReadMoreHTML";
 import placeholder from "@/public/placeholder.svg";
 import Head from "next/head";
-import { Tooltip } from "antd";
 import { Heading3 } from "@/app/components/typography/Heading3";
-import { ACCOUNT_TYPE } from "@/app/utils/enums";
 
-const ShareModalContent: React.FC<{ url: string; title: string }> = ({
-  url,
-  title,
-}) => {
-  const [copySuccess, setCopySuccess] = useState("");
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(url);
-    setCopySuccess("Copied!");
-    setTimeout(() => setCopySuccess(""), 2000);
-  };
-
-  return (
-    <div style={{ textAlign: "center" }}>
-      <h2
-        style={{
-          marginBottom: "20px",
-          fontWeight: 600,
-          fontFamily: "Bricolage Grotesque",
-        }}
-      >
-        Share Event
-      </h2>
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-around",
-          marginBottom: "20px",
-          fontFamily: "Bricolage Grotesque",
-        }}
-      >
-        <FacebookShareButton url={url}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <FacebookIcon size={50} round />
-            <p
-              style={{
-                marginTop: "5px",
-                marginBottom: "0",
-                textAlign: "center",
-              }}
-            >
-              Facebook
-            </p>
-          </div>
-        </FacebookShareButton>
-
-        <TwitterShareButton url={url}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <XIcon size={50} round />
-            <p
-              style={{
-                marginTop: "5px",
-                marginBottom: "0",
-                textAlign: "center",
-              }}
-            >
-              Twitter
-            </p>
-          </div>
-        </TwitterShareButton>
-
-        <WhatsappShareButton url={url}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <WhatsappIcon size={50} round />
-            <p
-              style={{
-                marginTop: "5px",
-                marginBottom: "0",
-                textAlign: "center",
-              }}
-            >
-              Whatsapp
-            </p>
-          </div>
-        </WhatsappShareButton>
-
-        <LinkedinShareButton url={url}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <LinkedinIcon size={50} round />
-            <p
-              style={{
-                marginTop: "5px",
-                marginBottom: "0",
-                textAlign: "center",
-              }}
-            >
-              LinkedIn
-            </p>
-          </div>
-        </LinkedinShareButton>
-      </div>
-
-      <div style={{ borderTop: "1px solid #ddd", paddingTop: "20px" }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <input
-            style={{
-              width: "80%",
-              padding: "5px",
-              border: "1px solid #ccc",
-              borderRadius: "5px",
-            }}
-            value={url}
-            readOnly
-          />
-          <Button onClick={copyToClipboard} icon={<CopyOutlined />}></Button>
-        </div>
-        {copySuccess && (
-          <p style={{ color: "green", marginTop: "10px" }}>{copySuccess}</p>
-        )}
-      </div>
-    </div>
-  );
-};
 
 const EventDetail = () => {
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams<{ event: string }>();
-  // console.log(params, 'params');
   const { getUserEventByUniqueKey } = useGetUserEventByUniqueKey(params?.event);
-  // console.log(getUserEventByUniqueKey, "getUserEventByUniqueKey");
 
   const eventDetails =
     getUserEventByUniqueKey?.data?.data?.data === null
       ? router.push("/not-found")
       : getUserEventByUniqueKey?.data?.data?.data;
-  // console.log(eventDetails, "eventDetails");
-
-  const handleMenuClick: MenuProps["onClick"] = (e) => {
-    return e;
-  };
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showModal, setShowModal] = useState(false); // State to control modal visibility
-
-  // Open the modal
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
-  const handleCloseModal2 = () => setShowModal(false);
 
   const eventTitle = eventDetails?.eventName;
-
-  const userFullName =
-    eventDetails?.user?.accountType === ACCOUNT_TYPE.PERSONAL
-      ? `${eventDetails?.user?.firstName ?? ""} ${eventDetails?.user?.lastName ?? ""
-        }`.trim()
-      : `${eventDetails?.user?.businessName ?? ""}`;
-
-  const socialLinks = eventDetails?.socials;
 
   // Countdown logic
   const eventDate = eventDetails?.startDate;
@@ -219,7 +34,6 @@ const EventDetail = () => {
   const eventEnddates = eventEndDate ? new Date(eventEndDate).getTime() : null;
 
 
-  const [isEventStarted, setIsEventStarted] = useState(false);
   const [isRegistrationClosed, setIsRegistrationClosed] = useState(false);
 
 
@@ -254,7 +68,6 @@ const EventDetail = () => {
       </Head>
 
       <section>
-
         {/* !!!For small screen */}
         <div className="min-[870px]:hidden flex gap-10 flex-col">
           {getUserEventByUniqueKey?.isLoading ? (
@@ -313,7 +126,7 @@ const EventDetail = () => {
 
           {getUserEventByUniqueKey?.isLoading ? (
             <div className="flex flex-col -mt-16 gap-3">
-              {[...Array(3)].map((_, index) => (
+              {[...Array(2)].map((_, index) => (
                 <Skeleton
                   key={index}
                   avatar

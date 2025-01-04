@@ -13,6 +13,8 @@ import { jwtDecode } from "jwt-decode";
 
 interface DecodedToken {
   event_unique_key: string;
+  user_id: string;
+  staff_name: string;
 }
 
 function LoginForm(): JSX.Element {
@@ -56,12 +58,16 @@ function LoginForm(): JSX.Element {
 
         const decoded = jwtDecode<DecodedToken>(response?.data?.data?.accessToken);
         console.log(decoded);
-        const event_unique_key = decoded?.event_unique_key;
-        setCookie("is_registered", "registered", { path: "/" });
-        setCookie("token", response?.data?.data?.accessToken, { path: "/" })
-        successFormatter(response);
-        form.resetFields();
-        router.push(`/${event_unique_key}`);
+        if(decoded?.event_unique_key) {
+          const event_unique_key = decoded?.event_unique_key;
+          setCookie("is_registered", "registered", { path: "/" });
+          setCookie("token", response?.data?.data?.accessToken, { path: "/" })
+          successFormatter(response);
+          form.resetFields();
+          router.push(`/${event_unique_key}`);
+        } else if(decoded?.user_id) {
+          router.push(`/events/${decoded?.user_id}`);
+        }
       }
     }
   };

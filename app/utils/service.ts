@@ -264,17 +264,25 @@ export class API_SERVICE {
     });
   }
 
-  static async _getGuestInfoScanner(event_id: string, guest_id: string, ticket_id: string): Promise<AxiosResponse> {
+  static async _getGuestInfoScanner(event_id: string, guest_id: string, order_number: string): Promise<AxiosResponse> {
     return await instance({
-      url: `/check_in/${event_id}/${guest_id}/${ticket_id}`,
+      url: `/check_in/${event_id}/${guest_id}/${order_number}`,
       method: HttpMethod.GET,
     });
   }
 
-  static async _checkInGuestScanner(data: ICheckInGuest): Promise<AxiosResponse> {
-    const { event_id, guest_id, ticket_id, ...rest } = data;
+  static async _getUserEventsById(user_id: string, page?: number, limit?: number): Promise<AxiosResponse> {
     return await instance({
-      url: `/check_in/${event_id}/${guest_id}/${ticket_id}`,
+      url: `/check_in/events/${user_id}`,
+      method: HttpMethod.GET,
+      params: { user_id, page, limit },
+    });
+  }
+
+  static async _checkInGuestScanner(data: ICheckInGuest): Promise<AxiosResponse> {
+    const { event_id, guest_id, order_number, ...rest } = data;
+    return await instance({
+      url: `/check_in/${event_id}/${guest_id}/${order_number}`,
       method: HttpMethod.POST,
       data: { ...rest }
     });

@@ -33,27 +33,46 @@ function ScanResults(): JSX.Element {
     event: string;
     event_id: string;
     guest_id: string;
-    ticket_id: string;
+    order_number: string;
   }>();
   const { getGuestInfoScanners } = useGetGuestInfoScanners(
     params?.event_id,
     params?.guest_id,
-    params?.ticket_id
+    params?.order_number
   );
 
   const guestInfo = getGuestInfoScanners?.data?.data?.data;
   console.log(getGuestInfoScanners, "getGuestInfoScanners");
+
+  const formatDate = (timestamp: any) => {
+    const date = new Date(parseInt(timestamp, 10)); // Convert timestamp to Date object
+  
+    // Extract date parts
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    };
+  
+    const formatter = new Intl.DateTimeFormat("en-US", options);
+    return formatter.format(date).replace(",", ""); // Format and remove extra comma
+  };
+
   const handleCheckIn = async () => {
     // Open the TicketValidation modal
     const response = await checkInGuest.mutateAsync({
       event_id: params?.event_id,
       guest_id: params?.guest_id,
-      ticket_id: params?.ticket_id,
-      check_in_date: dateFormat(Date.now().toString()),
+      order_number: params?.order_number,
+      check_in_date: formatDate(Date.now().toString()).replace(/\//g, "-"),
       check_in_by: decoded?.staff_name,
     });
     console.log(response, "response");
     if (response.status === 200) {
+      getGuestInfoScanners?.refetch();
       setIsCheckInVisible(true);
     }
   };

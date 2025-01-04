@@ -555,5 +555,5 @@ export interface ICheckInGuest{
   check_in_by: string,
   event_id: string, 
   guest_id: string, 
-  ticket_id: string
+  order_number: string
 }

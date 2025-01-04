@@ -1,6 +1,6 @@
 import { API_SERVICE } from "@/app/utils/service";
 import { useMutation, useQuery, } from "@tanstack/react-query";
-import { CREATE_CHECK_IN_SCANNER, GET_GUEST_INFO_SCANNERS, CHECK_IN_GUEST } from "@/app/utils/constants";
+import { CREATE_CHECK_IN_SCANNER, GET_GUEST_INFO_SCANNERS, CHECK_IN_GUEST, GET_USER_EVENT_CHECK } from "@/app/utils/constants";
 import { ICheckInData, ICheckInGuest,} from "@/app/utils/interface";
 import { AxiosError, AxiosResponse } from "axios";
 import { errorFormatter, successFormatter } from "@/app/utils/helper";
@@ -32,15 +32,25 @@ export const useCreateCheckInScanner = () => {
     return { createCheckInScanner };
 }
 
-export const useGetGuestInfoScanners = (event_id: string, guest_id: string, ticket_id: string) => {
+export const useGetGuestInfoScanners = (event_id: string, guest_id: string, order_number: string) => {
     const getGuestInfoScanners = useQuery({
-        queryKey: [GET_GUEST_INFO_SCANNERS, event_id, guest_id, ticket_id],
-        enabled: !!event_id || !!ticket_id || !!guest_id,
+        queryKey: [GET_GUEST_INFO_SCANNERS, event_id, guest_id, order_number],
+        enabled: !!event_id || !!order_number || !!guest_id,
         queryFn: () => {
-            return API_SERVICE._getGuestInfoScanner(event_id, guest_id, ticket_id);
+            return API_SERVICE._getGuestInfoScanner(event_id, guest_id, order_number);
         },
     });
     return { getGuestInfoScanners };
+}
+
+export const useGetUserEventsCheck = (user_id: string, page?: number, limit?: number) => {
+    const getUserEventsCheck = useQuery({
+        queryKey: [GET_USER_EVENT_CHECK, user_id, page, limit],
+        queryFn: () => {
+            return API_SERVICE._getUserEventsById(user_id, page, limit);
+        },
+    });
+    return { getUserEventsCheck };
 }
 
 export const useCheckInGuest = () => {
