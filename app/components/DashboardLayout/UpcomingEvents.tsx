@@ -1,38 +1,35 @@
-import OtherInfoCard from "./OtherInfoCard";
+import EventSection from "./UpcomingEventSection";
+import InfoCard from "./OtherInfoCard";
+import { useGetDiscoveryEvents } from "@/app/hooks/event/event.hook";
+import { useGetUserEventsCheck } from "@/app/hooks/checkin/checkin.hook";
 import { Skeleton } from "antd";
-import EventSection from "./DiscoverEventSection";
+import InfoCardM from "./OtherInfoCard2";
 import { useParams } from "next/navigation";
 import { IEventDetails } from "@/app/utils/interface";
 import placeholder from "@/public/placeholder.svg";
-import InfoCardM from "./OtherInfoCard2";
-import InfoCard from "./InfoCard";
-import { useGetUserEventsCheck } from "@/app/hooks/checkin/checkin.hook";
+import { useState } from "react";
 
-const DiscoverEvents = () => {
+const UpcomingEvents = () => {
   const params = useParams<{ userId: string }>();
+  const [page, setPage] = useState(1);
+  const [pageSize, setpageSize] = useState(12);
   const { getUserEventsCheck } = useGetUserEventsCheck(params?.userId);
   const userEvents = getUserEventsCheck?.data?.data?.data?.data;
-  const filteredEvents = userEvents?.filter(
-    (event: IEventDetails) =>
-      new Date(event.endDate).getTime() >= new Date().getTime() &&
-      new Date(event.startDate).getTime() <= new Date().getTime()
-  );
-  // const { getDiscoveryEvents } = useGetDiscoveryEvents(1, 10);
-  // const discoveryEvents = getDiscoveryEvents?.data?.data?.data?.events;
+  const filteredEvents = userEvents?.filter((event: IEventDetails) => new Date(event.startDate).getTime() > new Date().getTime());
   const isPending = getUserEventsCheck?.isLoading;
 
   return (
     <EventSection
-      title="Active Events"
       titleClass="custom-title-class"
       style={{
-        fontSize: "20px",
-        fontFamily: "Bricolage Grotesque, font-medium",
+        fontSize: "20px", 
+        fontFamily: "Bricolage Grotesque, font-semibold",
       }} // Inline style
+      uri="/discover/popularevents"
     >
       {isPending ? (
         <>
-          {Array(5)
+          {Array(10)
             .fill(null)
             .map((_, index) => (
               <Skeleton.Button
@@ -49,17 +46,18 @@ const DiscoverEvents = () => {
             ))}
         </>
       ) : (
+        // Once data is loaded, map through discoveryEvents and render InfoCard components
         filteredEvents?.map((event: IEventDetails, index: number) => (
           <>
-            <InfoCard
-              // className="flex lg:hidden"
-              key={event?.id}
+            <InfoCardM
+              className="flex lg:hidden"
+              key={index}
               title={event?.eventName}
               about={event?.eventType}
               startDate={event?.startDate}
               endDate={event?.endDate}
               image={event?.eventImage ? event.eventImage : placeholder}
-              url={`/${event?.unique_key}`}
+              url={`/discover/${event?.unique_key}`}
               titleClass="font-bricolage-grotesque font-medium"
               aboutClass="font-bricolage-grotesque"
               statusClass="font-bricolage-grotesque font-medium"
@@ -71,4 +69,4 @@ const DiscoverEvents = () => {
   );
 };
 
-export default DiscoverEvents;
+export default UpcomingEvents;

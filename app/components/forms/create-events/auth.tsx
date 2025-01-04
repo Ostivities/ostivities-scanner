@@ -1,34 +1,17 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-// import { useProfile } from "../../../hooks/auth/auth.hook";
 import { useCookies } from "react-cookie";
 
 const useFetch = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [cookies, setCookie, removeCookie] = useCookies([
-    "profileData",
-  ]);
+  const [cookies] = useCookies(["token"]);
 
 
   const router = useRouter();
   const pathname = usePathname();
 
-  // Private paths for authentication
-  const privatePaths = [
-    "/events/create-events",
-    "/events/settings",
-    "/events/events-created"
-  ];
-
-  const dynamicPrivatePaths = [
-    /^\/events\/create-events\/[a-zA-Z0-9-_]+(\/(manage|edit|delete))?$/
-  ];
-
-  const isPrivatePath = (path: string) => {
-    const decodedPath = decodeURIComponent(path);
-    return privatePaths.includes(decodedPath) || dynamicPrivatePaths.some((pattern) => pattern.test(decodedPath));
-  };
+  const publicPath = [ "/login" ]
 
   const isTokenValid = () => {
     const token = localStorage.getItem("token");
@@ -51,17 +34,10 @@ const useFetch = () => {
       setIsLoggedIn(false);
       localStorage.removeItem("token");
       localStorage.removeItem("tokenTimestamp");
-      localStorage.removeItem("profileData");
-      removeCookie("profileData")
-      if (isPrivatePath(pathname)) {
+      if (pathname !== "/login") {
         router.push("/login");
       }
     }
-
-    // Update login state if profile fetch fails
-    // if (profile?.isFetching === false && profile?.isSuccess === false) {
-    //   setIsLoggedIn(false);
-    // }
 
     setLoading(false);
 
